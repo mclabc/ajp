@@ -1,0 +1,52 @@
+// program to insert data into table
+// SQLPreparedStatementInsert.java
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+public class SQLPreparedStatementInsert
+{
+public static void main(String[] args) {
+try{
+Class.forName("com.mysql.jdbc.Driver");
+Connection con=DriverManager.getConnection(
+"jdbc:mysql://localhost:3306/student","root","root");
+PreparedStatement stmt = con.prepareStatement("insert into students values (?,?,?,?)");
+stmt.setInt(1,12);
+stmt.setString(2,"Sumit");
+stmt.setInt(3,10);
+stmt.setString(4,"A");
+int j = stmt.executeUpdate();
+System.out.println(j + "Records inserted..");
+con.close();
+}
+catch(Exception e)
+{
+System.out.println(e);
+}
+}
+}
+
+
+
+//  program to retrive data from database
+// MysqlCon.java
+
+import java.sql.*;
+class MysqlCon
+{
+public static void main(String args[])
+{
+try
+{
+Class.forName("com.mysql.jdbc.Driver");
+Connection con=DriverManager.getConnection(
+"jdbc:mysql://localhost:3306/student?characterEncoding=latin1","root","root");
+Statement stmt=con.createStatement();
+ResultSet rs=stmt.executeQuery("select * from students");
+while(rs.next())
+System.out.println(rs.getInt(1)+" "+rs.getString(2)+" "+rs.getInt(3)+" "+rs.getString(4));
+con.close();
+}catch(Exception e){ System.out.println(e);}
+}
+}

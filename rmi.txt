@@ -1,0 +1,64 @@
+//Adder.java
+import java.rmi.*;
+public interface Adder extends Remote
+{
+public int add(int x,int y)throws RemoteException;
+}
+//AddRemote
+import java.rmi.*;
+import java.rmi.server.*;
+public class AdderRemote extends UnicastRemoteObject implements Adder
+{
+AdderRemote()throws RemoteException{
+super();
+}
+public int add(int x,int y)
+{
+return x+y;
+}
+}
+//MyClient
+import java.rmi.*;
+public class MyClient{
+public static void main(String args[])
+{
+try
+{
+Adder stub=(Adder)Naming.lookup("ADD");
+System.out.println(stub.add(34,4));
+}catch(Exception e){System.out.println(e);}
+}
+}
+//MyServer
+import java.rmi.*;
+import java.rmi.registry.*;
+public class MyServer
+{
+public static void main(String args[])
+{
+try{
+Adder stub=new AdderRemote();
+Naming.rebind("ADD",stub);
+System.out.println("Server Strarted");
+}catch(Exception e){System.out.println(e);}
+}
+}
+
+
+
+
+//process
+
+1: For addition :
+Start cmd   Compile all files using javac *.java
+Create stub and skeleton file by using rmic AdderRemote
+Start rmi registry using : start rmiregistry
+Open new cmd to start sever : java MySever
+Open  client cmd and run MyClient : java MyClient
+
+2. For Palindrome: 
+Start cmd and Compile all files using javac*.java
+Create stub and skeleton  file by using rmic PallinRemote
+Start rmi registry using: start rmiregistry
+Open new cmd to start sever : java MySever
+Open   client cmd and run MyClient : java MyClient
